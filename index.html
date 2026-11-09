@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buku Cerita Interaktif: Sejarah Jata Negara</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for Retro Arcade & Clean Reading -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        marioRed: '#E52521',
+                        marioBlue: '#0099DB',
+                        marioGreen: '#43B047',
+                        marioYellow: '#FBD000',
+                        marioBrown: '#8B5A2B',
+                        marioPipe: '#2E8B57',
+                        marioBrick: '#B23A22',
+                        skyBlue: '#5C94FC',
+                        pipeDark: '#1E5936'
+                    },
+                    fontFamily: {
+                        pixel: ['"Press Start 2P"', 'cursive'],
+                        sans: ['Fredoka', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Pixel borders and Mario style styling */
+        .pixel-box {
+            border: 4px solid #000;
+            box-shadow: 4px 4px 0px #000;
+        }
+        .pixel-box-lg {
+            border: 6px solid #000;
+            box-shadow: 8px 8px 0px #000;
+        }
+        .pixel-btn {
+            border: 4px solid #000;
+            box-shadow: 0px 6px 0px #000;
+            transition: transform 0.1s, box-shadow 0.1s;
+        }
+        .pixel-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0px 2px 0px #000;
+        }
+        
+        /* Floating Cloud Animations */
+        @keyframes floatCloud {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100vw); }
+        }
+        .cloud-1 { animation: floatCloud 35s linear infinite; }
+        .cloud-2 { animation: floatCloud 55s linear infinite; animation-delay: -15s; }
+        .cloud-3 { animation: floatCloud 45s linear infinite; animation-delay: -25s; }
+
+        /* Card Flip 3D effect */
+        .perspective-1000 { perspective: 1200px; }
+        .transform-style-3d { transform-style: preserve-3d; }
+        .backface-hidden { backface-visibility: hidden; }
+        .rotate-y-180 { transform: rotateY(180deg); }
+
+        /* Book Page Turn Animations */
+        .book-container {
+            perspective: 1500px;
+        }
+        .book-page-wrap {
+            transform-style: preserve-3d;
+            transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
+        }
+        .page-turn-right {
+            transform-origin: left center;
+            animation: flipPageRight 0.7s cubic-bezier(0.455, 0.03, 0.515, 0.955) forwards;
+        }
+        .page-turn-left {
+            transform-origin: right center;
+            animation: flipPageLeft 0.7s cubic-bezier(0.455, 0.03, 0.515, 0.955) forwards;
+        }
+        @keyframes flipPageRight {
+            0% { transform: rotateY(0deg); box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+            50% { transform: rotateY(-90deg) scale(0.98); box-shadow: -15px 0 25px rgba(0,0,0,0.3); }
+            100% { transform: rotateY(0deg); box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        }
+        @keyframes flipPageLeft {
+            0% { transform: rotateY(0deg); box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+            50% { transform: rotateY(90deg) scale(0.98); box-shadow: 15px 0 25px rgba(0,0,0,0.3); }
+            100% { transform: rotateY(0deg); box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        }
+
+        /* Glowing Neon Timeline Styles */
+        .neon-timeline-btn {
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(251, 208, 0, 0.5), inset 0 0 5px rgba(251, 208, 0, 0.5);
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
+        }
+        .neon-active {
+            box-shadow: 0 0 20px #E52521, 0 0 35px #FBD000, inset 0 0 10px #FBD000 !important;
+            border-color: #FBD000 !important;
+            animation: neonPulse 1.5s infinite alternate;
+        }
+        @keyframes neonPulse {
+            0% { transform: scale(1.05); box-shadow: 0 0 15px #E52521, 0 0 25px #FBD000; }
+            100% { transform: scale(1.12); box-shadow: 0 0 25px #E52521, 0 0 45px #FBD000, 0 0 60px #FBD000; }
+        }
+
+        /* Parchment Vintage Paper Texture Background */
+        .parchment-bg {
+            background-color: #FDF6E2;
+            background-image: url('bg-parchment-texture.png'), radial-gradient(#E8D5B5 1px, transparent 0);
+            background-size: cover, 16px 16px;
+            background-repeat: no-repeat, repeat;
+            background-position: center;
+            border: 8px solid #5C3A21;
+            box-shadow: inset 0 0 30px rgba(139, 90, 43, 0.3), 8px 8px 0px #000;
+        }
+
+        /* Super Mario Question Block Wobble */
+        @keyframes blockBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+        .q-block:hover {
+            animation: blockBounce 0.4s ease infinite;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #5C94FC;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #FBD000;
+            border: 2px solid #000;
+        }
+    </style>
+</head>
+<body class="bg-skyBlue font-sans text-gray-900 min-h-screen flex flex-col justify-between overflow-x-hidden selection:bg-marioYellow selection:text-black">
+
+    <!-- Background Mario Environment Elements -->
+    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+        <!-- Pixel Clouds -->
+        <div class="cloud-1 absolute top-10 left-0 opacity-80">
+            <svg width="120" height="60" viewBox="0 0 120 60" fill="white">
+                <rect x="20" y="10" width="80" height="40" rx="20"/>
+                <rect x="40" y="0" width="40" height="40" rx="20"/>
+                <rect x="10" y="20" width="100" height="30" rx="15"/>
+            </svg>
+        </div>
+        <div class="cloud-2 absolute top-28 left-0 opacity-70">
+            <svg width="160" height="70" viewBox="0 0 160 70" fill="white">
+                <rect x="20" y="15" width="120" height="45" rx="20"/>
+                <rect x="50" y="0" width="60" height="50" rx="25"/>
+            </svg>
+        </div>
+        <div class="cloud-3 absolute top-6 left-0 opacity-90">
+            <svg width="90" height="45" viewBox="0 0 90 45" fill="white">
+                <rect x="10" y="10" width="70" height="30" rx="15"/>
+                <rect x="30" y="0" width="30" height="30" rx="15"/>
+            </svg>
+        </div>
+    </div>
+
+    <!-- Top Header Bar / Arcade Status Bar -->
+    <header class="relative z-20 bg-marioRed border-b-4 border-black text-white p-3 md:p-4 shadow-md">
+        <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+            <!-- App Title -->
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-marioYellow rounded-full pixel-box flex items-center justify-center text-black font-pixel text-xl font-bold">
+                    ★
+                </div>
+                <div>
+                    <h1 class="font-pixel text-lg md:text-xl text-marioYellow drop-shadow-[2px_2px_0px_#000]">
+                        SEJARAH JATA NEGARA
+                    </h1>
+                    <p class="text-xs md:text-sm text-yellow-100 font-semibold">Buku Cerita Interaktif PdP 
+                
+                    </p>
+                </div>
+            </div>
+
+            <!-- Sound & Score Bar -->
+            <div class="flex items-center gap-3 sm:gap-4 bg-black/30 px-3 sm:px-4 py-2 rounded-xl pixel-box flex-wrap">
+                <div class="flex items-center gap-2 text-marioYellow font-pixel text-xs">
+                    <img src="coin.png" alt="Coin" class="w-8 h-8 md:w-9 md:h-9 object-contain animate-pulse filter drop-shadow" onerror="this.onerror=null; this.src='icon-coin.png'; this.onerror=function(){this.src='https://placehold.co/50x50/FBD000/000000?text=🪙';}">
+                    <span class="text-xs md:text-sm">COINS:</span>
+                    <span id="coin-counter" class="text-white text-base md:text-lg">00</span>
+                </div>
+                <div class="h-4 w-1 bg-white/40 hidden sm:block"></div>
+                
+                <!-- BGM Controls with Volume Slider -->
+                <div class="flex items-center gap-2 bg-black/40 px-2 py-1 rounded border border-yellow-400/50">
+                    <button id="bgm-toggle" onclick="toggleBGM()" class="text-[10px] font-pixel bg-marioGreen text-white px-2 py-1 rounded border border-black hover:bg-green-500 transition shrink-0">
+                        🎵 BGM: OFF
+                    </button>
+                    <input type="range" id="bgm-volume" min="0" max="1" step="0.05" value="0.3" oninput="changeBGMVolume(this.value)" class="w-16 sm:w-20 accent-marioYellow cursor-pointer" title="Adjust BGM Volume">
+                </div>
+
+                <button id="sound-toggle" onclick="toggleAudio()" class="text-xs font-pixel bg-marioYellow text-black px-2 py-1 rounded border-2 border-black hover:bg-yellow-300 shrink-0">
+                    🔊 SFX: ON
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- World Navigation Bar -->
+    <nav class="relative z-20 bg-marioYellow border-b-4 border-black py-2 px-4 shadow-md">
+        <div class="max-w-4xl mx-auto flex justify-center gap-2 md:gap-4 flex-wrap">
+            <button onclick="switchWorld(1)" id="nav-world-1" class="pixel-btn bg-marioRed text-white px-4 py-2 text-xs md:text-sm font-bold rounded-lg flex items-center gap-2">
+                <span>🏰</span> DUNIA 1: Garis Masa
+            </button>
+            <button onclick="switchWorld(2)" id="nav-world-2" class="pixel-btn bg-white text-black px-4 py-2 text-xs md:text-sm font-bold rounded-lg flex items-center gap-2">
+                <span>❓</span> DUNIA 2: Galeri Lambang
+            </button>
+            <button onclick="switchWorld(3)" id="nav-world-3" class="pixel-btn bg-white text-black px-4 py-2 text-xs md:text-sm font-bold rounded-lg flex items-center gap-2">
+                <span>🎮</span> DUNIA 3: Kuiz Cabaran
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content Container -->
+    <main class="relative z-10 max-w-5xl mx-auto px-4 py-6 flex-grow w-full">
+
+        <!-- ================= WORLD 1: GARIS MASA (TIMELINE STORYBOOK) ================= -->
+        <section id="world-1" class="world-stage block">
+            <!-- Stage Banner -->
+            <div class="bg-white/90 backdrop-blur pixel-box p-4 rounded-xl mb-6 text-center">
+                <span class="font-pixel text-xs text-marioRed tracking-wider uppercase block mb-1">WORLD 1-1 • HISTORICAL FLIP BOOK</span>
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-800">Perkembangan & Evolusi Jata Negara</h2>
+                <p class="text-sm text-gray-600 mt-1">Pilih tahun pada Garis Masa Neon atau selak muka surat untuk membaca cerita sejarah.</p>
+            </div>
+
+            <!-- Glowing Neon Timeline Bar (Clear & Visible without Obscuring Circles) -->
+            <div class="mb-8 max-w-3xl mx-auto px-2">
+                <div class="bg-black/80 p-3 rounded-2xl pixel-box border-2 border-marioYellow flex items-center justify-between gap-2 md:gap-4 relative overflow-x-auto">
+                    
+                    <!-- Line Track -->
+                    <div class="absolute top-1/2 left-6 right-6 h-1.5 bg-gradient-to-r from-red-500 via-yellow-400 to-green-400 -translate-y-1/2 z-0 opacity-70"></div>
+
+                    <!-- 1948 Button -->
+                    <button onclick="goToLevel(0)" id="lvl-btn-0" class="neon-timeline-btn relative z-10 px-3 md:px-5 py-2.5 rounded-xl bg-gradient-to-b from-yellow-300 to-amber-500 border-2 border-black font-pixel text-xs md:text-sm text-black font-bold flex flex-col items-center gap-1 shrink-0">
+                        <span class="text-[10px] text-amber-900 leading-none">STAGE 1</span>
+                        <span class="text-sm md:text-base tracking-wider">1948</span>
+                    </button>
+
+                    <div class="text-yellow-400 font-pixel text-xs z-10 hidden sm:block">➔</div>
+
+                    <!-- 1963 Button -->
+                    <button onclick="goToLevel(1)" id="lvl-btn-1" class="neon-timeline-btn relative z-10 px-3 md:px-5 py-2.5 rounded-xl bg-gradient-to-b from-yellow-300 to-amber-500 border-2 border-black font-pixel text-xs md:text-sm text-black font-bold flex flex-col items-center gap-1 shrink-0">
+                        <span class="text-[10px] text-amber-900 leading-none">STAGE 2</span>
+                        <span class="text-sm md:text-base tracking-wider">1963</span>
+                    </button>
+
+                    <div class="text-yellow-400 font-pixel text-xs z-10 hidden sm:block">➔</div>
+
+                    <!-- 1965 Button -->
+                    <button onclick="goToLevel(2)" id="lvl-btn-2" class="neon-timeline-btn relative z-10 px-3 md:px-5 py-2.5 rounded-xl bg-gradient-to-b from-yellow-300 to-amber-500 border-2 border-black font-pixel text-xs md:text-sm text-black font-bold flex flex-col items-center gap-1 shrink-0">
+                        <span class="text-[10px] text-amber-900 leading-none">STAGE 3</span>
+                        <span class="text-sm md:text-base tracking-wider">1965</span>
+                    </button>
+
+                    <div class="text-yellow-400 font-pixel text-xs z-10 hidden sm:block">➔</div>
+
+                    <!-- Kini Button -->
+                    <button onclick="goToLevel(3)" id="lvl-btn-3" class="neon-timeline-btn relative z-10 px-3 md:px-5 py-2.5 rounded-xl bg-gradient-to-b from-yellow-300 to-amber-500 border-2 border-black font-pixel text-xs md:text-sm text-black font-bold flex flex-col items-center gap-1 shrink-0">
+                        <span class="text-[10px] text-amber-900 leading-none">STAGE 4</span>
+                        <span class="text-sm md:text-base tracking-wider">KINI</span>
+                    </button>
+
+                </div>
+            </div>
+
+            <!-- 3D Book Container -->
+            <div class="book-container relative min-h-[500px] max-w-4xl mx-auto">
+                
+                <!-- FRONT COVER PAGE (MUKA DEPAN) -->
+                <div id="book-cover-page" class="parchment-bg rounded-2xl p-6 md:p-10 text-center flex flex-col justify-between items-center min-h-[480px] relative z-20 shadow-2xl transition-all duration-700">
+                    <div class="w-full flex justify-between items-center border-b-2 border-amber-900/40 pb-3">
+                        <span class="font-pixel text-xs text-amber-900">EDISI KHAS PdP SEJARAH</span>
+                        <span class="font-pixel text-xs bg-marioRed text-white px-2 py-1 rounded">MARIO x VINTAGE</span>
+                    </div>
+
+                    <div class="my-auto py-4">
+                        <!-- Replaced Crown with Jata Negara Kini (jata-kini.png) -->
+                        <div class="w-32 h-32 md:w-36 md:h-36 mx-auto mb-4 bg-amber-100/90 rounded-full pixel-box flex items-center justify-center p-3 shadow-lg border-4 border-black animate-bounce">
+                            <img src="jata-kini.png" alt="Jata Negara Kini" class="w-full h-full object-contain filter drop-shadow-md" onerror="this.onerror=null; this.src='https://placehold.co/150x150/FBD000/000000?text=JATA+KINI';">
+                        </div>
+                        <h2 class="font-pixel text-xl md:text-3xl text-amber-950 mb-3 tracking-wide drop-shadow-sm">
+                            JOM BELAJAR<br><span class="text-marioRed text-2xl md:text-4xl">SEJARAH JATA NEGARA</span>
+                        </h2>
+                        <div class="w-32 h-1 bg-marioYellow mx-auto mb-4 border border-black"></div>
+                        <p class="text-sm md:text-base text-amber-900 max-w-md mx-auto font-semibold">
+                            Terokai garis masa, evolusi rekaan, serta lambang kebesaran tanah air kita secara interaktif!
+                        </p>
+                    </div>
+
+                    <button onclick="openBook()" class="pixel-btn bg-marioGreen hover:bg-green-600 text-white font-pixel text-xs md:text-sm px-8 py-4 rounded-xl flex items-center gap-3 text-lg shadow-xl">
+                        📖 BUKA BUKU STORYBOOK 🚀
+                    </button>
+                </div>
+
+                <!-- STORYBOOK PAGE CONTENT (PARCHMENT VINTAGE LOOK) -->
+                <div id="book-inner-page" class="parchment-bg rounded-2xl p-6 md:p-8 flex flex-col justify-between min-h-[480px] shadow-2xl relative z-10 hidden transition-all duration-700">
+                    <!-- Top Ribbons -->
+                    <div class="flex justify-between items-center border-b-2 border-amber-900/30 pb-3">
+                        <div class="flex items-center gap-2">
+                            <span class="font-pixel text-xs bg-amber-900 text-amber-100 px-2.5 py-1 rounded">HALAMAN <span id="page-num">1</span> / 4</span>
+                            <span class="text-xs font-bold text-amber-900 hidden sm:inline">| Garis Masa Sejarah</span>
+                        </div>
+                        <div class="text-xs font-pixel text-amber-900">
+                            TAHUN: <span id="current-year-tag" class="bg-marioRed text-white px-2 py-0.5 rounded shadow">1948</span>
+                        </div>
+                    </div>
+
+                    <!-- Story Page Content -->
+                    <div id="story-content" class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center my-4">
+                        <!-- Dynamic PNG Graphic Display -->
+                        <div class="md:col-span-5 flex flex-col items-center justify-center bg-amber-100/60 p-4 rounded-xl border-2 border-amber-400/80 shadow-inner">
+                            <div id="jata-svg-container" class="w-48 h-48 md:w-56 md:h-56 flex items-center justify-center drop-shadow-md">
+                                <!-- PNG image dynamically injected here -->
+                            </div>
+                            <span id="jata-caption" class="text-xs font-bold text-amber-950 mt-2 text-center bg-amber-200/80 px-3 py-1 rounded-full border border-amber-400">
+                                Ilustrasi Jata Negara 1948
+                            </span>
+                        </div>
+
+                        <!-- Story Text Info -->
+                        <div class="md:col-span-7 flex flex-col justify-center">
+                            <h3 id="story-title" class="text-2xl md:text-3xl font-bold text-amber-950 mb-3">
+                                1948: Jata Negara Persekutuan Tanah Melayu
+                            </h3>
+                            <p id="story-desc" class="text-amber-900 text-base md:text-lg leading-relaxed mb-4">
+                                Jata Negara diperkenalkan buat pertama kali pada tahun 1948 untuk Persekutuan Tanah Melayu. Ia menampilkan lambang lima bilah keris, lambang Pulau Pinang, Melaka serta empat warna di dalam petak (putih, merah, hitam dan kuning) pada sebuah perisai yang disokong oleh dua ekor harimau.
+                            </p>
+                            <div class="bg-amber-200/50 p-4 rounded-xl border-l-4 border-marioRed text-sm text-amber-950">
+                                <strong>Ciri Khas & Cogan Kata:</strong>
+                                <p id="story-highlight" class="mt-1">
+                                    Terdapat lambang bintang pecah 11 serta bulan sabit kuning di atas perisai. Cogan kata "Bersekutu Bertambah Mutu" ditulis dalam tulisan Jawi dan Bahasa Inggeris ("UNITY IS STRENGTH").
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Storybook Navigation Controls -->
+                    <div class="flex justify-between items-center pt-4 border-t-2 border-amber-900/30">
+                        <button id="prev-story-btn" onclick="changeStory(-1)" class="pixel-btn bg-amber-800 text-amber-100 px-4 md:px-5 py-2.5 rounded-xl font-bold flex items-center gap-2 text-xs md:text-sm" disabled>
+                            ⬅️ Muka Surat Lepas
+                        </button>
+                        <button onclick="closeBookToCover()" class="text-xs text-amber-900 font-pixel underline hover:text-marioRed">
+                            📕 Muka Depan
+                        </button>
+                        <button id="next-story-btn" onclick="changeStory(1)" class="pixel-btn bg-marioGreen text-white px-4 md:px-5 py-2.5 rounded-xl font-bold flex items-center gap-2 text-xs md:text-sm">
+                            Selak Muka Surat ➡️
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ================= WORLD 2: GALERI LAMBANG (SYMBOL EXPLORER) ================= -->
+        <section id="world-2" class="world-stage hidden">
+            <div class="bg-white/90 backdrop-blur pixel-box p-4 rounded-xl mb-6 text-center">
+                <span class="font-pixel text-xs text-marioBlue tracking-wider uppercase block mb-1">WORLD 1-2 • QUESTION BLOCK GALLERY</span>
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-800">Kenali Lambang & Makna Jata Negara</h2>
+                <p class="text-sm text-gray-600 mt-1">Klik pada blok soalan ❓ untuk membongkar maksud setiap lambang pada Jata Negara!</p>
+            </div>
+
+            <!-- Grid Container for Question Cards -->
+            <div id="symbol-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
+                <!-- Cards dynamically populated by JavaScript -->
+            </div>
+        </section>
+
+        <!-- ================= WORLD 3: KUIZ CABARAN (MARIO QUIZ GAME) ================= -->
+        <section id="world-3" class="world-stage hidden">
+            <div class="bg-white/90 backdrop-blur pixel-box p-4 rounded-xl mb-6 text-center">
+                <span class="font-pixel text-xs text-marioGreen tracking-wider uppercase block mb-1">WORLD 1-3 • SUPER JATA QUIZ</span>
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-800">Cabaran Kuiz Sejarah</h2>
+                <p class="text-sm text-gray-600 mt-1">Uji kefahaman anda dan dapatkan syiling emas sebanyak mungkin!</p>
+            </div>
+
+            <div class="max-w-2xl mx-auto bg-white pixel-box-lg rounded-2xl p-6 md:p-8">
+                <!-- Quiz Start Screen -->
+                <div id="quiz-start-screen" class="text-center py-6">
+                    <div class="text-6xl mb-4 animate-bounce">🎮</div>
+                    <h3 class="font-pixel text-xl text-marioBrick mb-3">KUIZ CABARAN SUPER JATA</h3>
+                    <p class="text-gray-600 mb-6 text-sm leading-relaxed">
+                        Jawab 5 soalan berkaitan Sejarah, Evolusi, dan Makna Lambang Jata Negara untuk mengumpul Markah & Syiling Emas!
+                    </p>
+                    <button onclick="startQuiz()" class="pixel-btn bg-marioRed text-white font-pixel text-sm px-8 py-4 rounded-xl hover:bg-red-600">
+                        MULAKAN KUIZ! 🚀
+                    </button>
+                </div>
+
+                <!-- Quiz Question Screen -->
+                <div id="quiz-question-screen" class="hidden">
+                    <div class="flex justify-between items-center mb-4 pb-3 border-b-2 border-gray-200">
+                        <span class="font-pixel text-xs bg-marioYellow text-black px-3 py-1 rounded border border-black">
+                            SOALAN <span id="quiz-q-num">1</span> / 10
+                        </span>
+                        <span class="font-pixel text-xs text-marioRed">
+                            SKOR: <span id="quiz-score">0</span>
+                        </span>
+                    </div>
+
+                    <!-- Visual Emblem Slot For Requested Year -->
+                    <div id="quiz-image-container" class="mb-4 bg-amber-50 p-3 rounded-xl border-2 border-amber-300 flex flex-col items-center justify-center hidden">
+                        <div id="quiz-jata-svg" class="w-28 h-28 flex items-center justify-center drop-shadow">
+                            <!-- Injected PNG Image for requested year -->
+                        </div>
+                        <span id="quiz-jata-label" class="text-[11px] font-pixel text-amber-900 mt-1 bg-amber-200 px-2 py-0.5 rounded">
+                            RUJUKAN GAMBAR JATA NEGARA TAHUN ...
+                        </span>
+                    </div>
+
+                    <h4 id="quiz-question-text" class="text-base md:text-lg font-bold text-gray-800 mb-6">
+                        <!-- Question text -->
+                    </h4>
+
+                    <div id="quiz-options-container" class="space-y-3 mb-6">
+                        <!-- Option buttons -->
+                    </div>
+
+                    <div id="quiz-feedback" class="hidden p-3 rounded-xl text-center font-bold text-sm mb-4">
+                        <!-- Feedback text -->
+                    </div>
+
+                    <div class="flex justify-end">
+                        <button id="quiz-next-btn" onclick="nextQuestion()" class="hidden pixel-btn bg-marioGreen text-white font-bold text-xs px-5 py-3 rounded-xl">
+                            Soalan Seterusnya ➔
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Quiz Result Screen -->
+                <div id="quiz-result-screen" class="hidden text-center py-6">
+                    <div id="result-icon" class="text-6xl mb-3">👑</div>
+                    <h3 class="font-pixel text-lg text-black mb-2">KEPUTUSAN KUIZ</h3>
+                    <div class="text-3xl font-pixel text-marioYellow drop-shadow-[2px_2px_0px_#000] mb-4">
+                        <span id="final-score-text">5 / 5</span>
+                    </div>
+                    <p id="final-eval-text" class="text-gray-700 font-semibold mb-6 text-sm">
+                        Syabas! Anda telah menguasai subtopik Sejarah Jata Negara!
+                    </p>
+                    <div class="flex justify-center gap-4">
+                        <button onclick="startQuiz()" class="pixel-btn bg-marioYellow text-black font-pixel text-xs px-5 py-3 rounded-xl">
+                            MAIN LAGI 🔄
+                        </button>
+                        <button onclick="switchWorld(1)" class="pixel-btn bg-marioBlue text-white font-pixel text-xs px-5 py-3 rounded-xl">
+                            KE DUNIA 1 🏰
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Super Mario Ground Floor & Pipes Footer -->
+    <footer class="relative z-20 mt-8">
+        <!-- Pipe graphics floating above ground -->
+        <div class="max-w-5xl mx-auto px-6 flex justify-between items-end relative -mb-2 pointer-events-none">
+            <!-- Small Mario Pipe Left -->
+            <div class="w-16 h-12 bg-marioPipe border-4 border-black rounded-t-lg relative flex items-center justify-center">
+                <div class="w-full h-3 bg-pipeDark absolute top-0 border-b-2 border-black"></div>
+            </div>
+            <!-- Medium Mario Pipe Right -->
+            <div class="w-20 h-16 bg-marioPipe border-4 border-black rounded-t-lg relative flex items-center justify-center">
+                <div class="w-full h-4 bg-pipeDark absolute top-0 border-b-2 border-black"></div>
+            </div>
+        </div>
+
+        <!-- Brick Pattern Ground -->
+        <div class="bg-marioBrick border-t-4 border-black py-4 px-4 text-center text-white text-xs font-semibold shadow-inner">
+            <div class="max-w-4xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
+                <p>© Bahan Pembelajaran & Pameran PdP Sejarah - Subtopik Jata Negara</p>
+                <div class="flex items-center gap-2 text-yellow-300 font-pixel text-[10px]">
+                    <span>SUPER MARIO STYLE PdP EDITION</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Interactive Glossary Modal -->
+    <div id="glossary-modal" class="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white pixel-box-lg rounded-2xl max-w-md w-full p-6 relative">
+            <button onclick="toggleGlossary(false)" class="absolute top-3 right-3 text-gray-500 hover:text-black font-bold text-xl">✕</button>
+            <h3 class="font-pixel text-sm text-marioRed mb-4 flex items-center gap-2">
+                <span>📖</span> GLOSARI KATA SEJARAH
+            </h3>
+            <div class="space-y-3 text-sm">
+                <div class="bg-amber-50 p-3 rounded-lg border border-amber-200">
+                    <strong class="text-marioBrick block">Bersekutu:</strong>
+                    <p class="text-gray-700">Bersatu antara satu dengan yang lain supaya menjadi lebih kuat.</p>
+                </div>
+                <div class="bg-amber-50 p-3 rounded-lg border border-amber-200">
+                    <strong class="text-marioBrick block">Realistik:</strong>
+                    <p class="text-gray-700">Menunjukkan keadaan yang sebenarnya.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Floating Glossary Button -->
+    <button onclick="toggleGlossary(true)" class="fixed bottom-20 right-4 z-40 pixel-btn bg-marioYellow text-black font-bold p-3 rounded-full text-xs flex items-center gap-1 shadow-lg">
+        📖 Glosari
+    </button>
+
+    <!-- JavaScript Logic & PNG Data -->
+    <script>
+        /* -------------------------------------------------------------
+           DATA STRUCTURE: TIMELINE & SYMBOLS (PNG IMAGES)
+           ------------------------------------------------------------- */
+        const timelineData = [
+            {
+                year: "1948",
+                title: "1948: Jata Negara Persekutuan Tanah Melayu",
+                desc: "Jata Negara diperkenalkan pada tahun 1948. Memaparkan lima bilah keris, lambang Pulau Pinang, Melaka serta empat warna di dalam petak iaitu putih, merah, hitam dan kuning pada sebuah perisai yang disokong oleh dua ekor harimau.",
+                highlight: "Terdapat lambang bintang pecah 11 serta bulan sabit kuning di atas perisai. Cogan kata 'Bersekutu Bertambah Mutu' ditulis dalam tulisan Jawi dan Bahasa Inggeris ('UNITY IS STRENGTH').",
+                caption: "Jata Negara Persekutuan Tanah Melayu (1948)",
+                png: "jata-1948.png"
+            },
+            {
+                year: "1963",
+                title: "1963: Penubuhan Malaysia",
+                desc: "Pada tahun 1963, Jata Negara diubah selepas penubuhan Malaysia. Negeri Singapura, Sarawak dan Sabah diletakkan di sebelah bawah perisai.",
+                highlight: "Lambang negeri Melaka diubah kepada pokok Melaka. Cogan kata 'Bersekutu Bertambah Mutu' diubah sepenuhnya kepada bahasa Melayu.",
+                caption: "Jata Negara Selepas Penubuhan Malaysia (1963)",
+                png: "jata-1963.png"
+            },
+            {
+                year: "1965",
+                title: "1965: Pengguguran Singapura & Bunga Raya",
+                desc: "Pada tahun 1965, berikutan pemisahan Singapura daripada Malaysia, lambang Singapura pada bahagian tengah bawah perisai telah digugurkan.",
+                highlight: "Lambang Singapura digantikan dengan sekuntum Bunga Raya (Bunga Kebangsaan Malaysia).",
+                caption: "Jata Negara Pengguguran Singapura (1965)",
+                png: "jata-1965.png"
+            },
+            {
+                year: "Kini",
+                title: "Jata Negara Moden (Kini)",
+                desc: "Jata Negara terkini mengalami pengemaskinian pada rekaan lambang Pulau Pinang (Jambatan & Pokok Pinang) serta rekaan yang lebih kemas bagi Sabah & Sarawak.",
+                highlight: "Rekaan dua ekor harimau diubah kepada gaya yang lebih realistik. Bintang pecah 14, bulan sabit, 5 keris, pokok Melaka, 4 warna petak & cogan kata kekal dipertahankan.",
+                caption: "Jata Negara Malaysia Terkini",
+                png: "jata-kini.png"
+            }
+        ];
+
+        const symbolData = [
+            {
+                name: "Bintang Pecah 14 & Bulan Sabit",
+                tag: "Agama & Perpaduan",
+                meaning: "Bintang pecah 14 melambangkan perpaduan 13 buah negeri dan Kerajaan Persekutuan. Bulan sabit dan bintang bermaksud Islam sebagai agama Persekutuan Malaysia.",
+                color: "bg-marioYellow",
+                png: "lambang-bintang-bulan.png"
+            },
+            {
+                name: "Dua Ekor Harimau",
+                tag: "Sifat Keberanian",
+                meaning: "Dua ekor harimau yang menyokong perisai melambangkan keberanian dan kegagahan rakyat Malaysia dalam mempertahankan negara.",
+                color: "bg-marioRed",
+                png: "lambang-dua-harimau.png"
+            },
+            {
+                name: "Lima Bilah Keris",
+                tag: "NNMTB",
+                meaning: "Lima bilah keris pada bahagian atas perisai melambangkan Negeri-negeri Melayu Tidak Bersekutu iaitu Perlis, Kedah, Kelantan, Terengganu dan Johor.",
+                color: "bg-marioBlue",
+                png: "lambang-5-keris.png"
+            },
+            {
+                name: "Empat Jalur Warna",
+                tag: "NNMB",
+                meaning: "Merujuk Negeri-negeri Melayu Bersekutu: Merah-Kuning (Selangor), Hitam-Putih (Pahang), Hitam-Putih-Kuning (Perak), Merah-Hitam-Kuning (Negeri Sembilan).",
+                color: "bg-marioPipe",
+                png: "lambang-4-warna.png"
+            },
+            {
+                name: "Jata Pulau Pinang",
+                tag: "Negeri Selat",
+                meaning: "Pokok Pinang & Jambatan di bahagian kiri perisai mewakili negeri Pulau Pinang.",
+                color: "bg-marioBrown",
+                png: "lambang-jata-pulau-pinang.png"
+            },
+            {
+                name: "Jata Melaka",
+                tag: "Negeri Selat",
+                meaning: "Pokok Melaka di bahagian kanan perisai mewakili negeri Melaka.",
+                color: "bg-amber-700",
+                png: "lambang-jata-melaka.png"
+            },
+            {
+                name: "Jata Sabah, Sarawak & Bunga Raya",
+                tag: "Borneo & Bunga Kebangsaan",
+                meaning: "Negeri Sarawak dan Sabah dilambangkan dengan jata negeri masing-masing. Di tengah-tengahnya terdapat sekuntum Bunga Raya (Bunga Kebangsaan).",
+                color: "bg-pink-500",
+                png: "lambang-jata-sabah-sarawak-bunga-raya.png"
+            },
+            {
+                name: "Cogan Kata 'Bersekutu Bertambah Mutu'",
+                tag: "Prinsip Perpaduan",
+                meaning: "Ditulis dalam tulisan Rumi dan Jawi. Bermaksud semangat permuafakatan akan mempererat perpaduan antara rakyat di Malaysia.",
+                color: "bg-amber-600",
+                png: "lambang-cogan-kata.png"
+            }
+        ];
+
+        const quizQuestions = [
+            {
+                q: "Berapakah bilangan bilah keris pada Jata Negara dan apakah maksudnya?",
+                options: [
+                    "5 bilah keris - Melambangkan Negeri-negeri Melayu Tidak Bersekutu",
+                    "4 bilah keris - Melambangkan Negeri-negeri Melayu Bersekutu",
+                    "14 bilah keris - Melambangkan 14 buah negeri",
+                    "3 bilah keris - Melambangkan Negeri-negeri Selat"
+                ],
+                answer: 0,
+                yearImage: null
+            },
+            {
+                q: "Apakah maksud lambang Bulan Sabit dan Bintang Pecah 14 pada Jata Negara?",
+                options: [
+                    "Kekayaan hasil bumi negara",
+                    "Islam sebagai agama Persekutuan & Perpaduan 13 Negeri + Kerajaan Persekutuan",
+                    "Keberanian pahlawan tanah air",
+                    "Kemerdekaan Tanah Melayu pada 1957"
+                ],
+                answer: 1,
+                yearImage: null
+            },
+            {
+                q: "Rujuk gambar Jata Negara di bawah. Apakah perubahan utama yang berlaku pada tahun 1965?",
+                options: [
+                    "Lambang Singapura digugurkan dan digantikan dengan Bunga Raya",
+                    "Tulisan Bahasa Inggeris dimasukkan semula",
+                    "Dua ekor harimau digantikan dengan singa",
+                    "Bintang pecah 11 ditukar menjadi pecah 14"
+                ],
+                answer: 0,
+                yearImage: 2 // 1965
+            },
+            {
+                q: "Empat jalur warna di tengah-tengah perisai (Merah, Hitam, Putih, Kuning) merujuk kepada:",
+                options: [
+                    "Negeri-negeri Selat",
+                    "Negeri-negeri Melayu Tidak Bersekutu",
+                    "Negeri-negeri Melayu Bersekutu (Selangor, Pahang, Perak, N.Sembilan)",
+                    "Wilayah Persekutuan"
+                ],
+                answer: 2,
+                yearImage: null
+            },
+            {
+                q: "Apakah mesej utama cogan kata 'Bersekutu Bertambah Mutu'?",
+                options: [
+                    "Rakyat perlu bersaing antara satu sama lain",
+                    "Semangat permuafakatan mempererat perpaduan rakyat Malaysia",
+                    "Kekuatan ekonomi bergantung pada perdagangan luar",
+                    "Pentingnya menguasai pelbagai bahasa"
+                ],
+                answer: 1,
+                yearImage: null
+            },
+            {
+                q: "Rujuk gambar Jata Negara 1948 di bawah. Apakah tulisan bahasa yang terdapat pada cogan kata ketika itu?",
+                options: [
+                    "Tulisan Bahasa Melayu Rumi sahaja",
+                    "Tulisan Jawi dan Bahasa Inggeris ('UNITY IS STRENGTH')",
+                    "Tulisan Jawi dan Bahasa Melayu Rumi",
+                    "Tulisan Bahasa Inggeris sahaja"
+                ],
+                answer: 1,
+                yearImage: 0 // 1948
+            },
+            {
+                q: "Rujuk gambar Jata Negara 1963 di bawah. Mengapakah perisai Jata Negara diubah pada tahun tersebut?",
+                options: [
+                    "Kerana pembentukan Persekutuan Malaysia (kemasukan Singapura, Sarawak & Sabah)",
+                    "Kerana Perang Dunia Kedua tamat",
+                    "Kerana penukaran lagu kebangsaan",
+                    "Kerana pengisytiharan Wilayah Persekutuan"
+                ],
+                answer: 0,
+                yearImage: 1 // 1963
+            },
+            {
+                q: "Dua ekor harimau yang menyokong perisai Jata Negara melambangkan:",
+                options: [
+                    "Kesucian dan kedamaian negara",
+                    "Keberanian dan kegagahan rakyat Malaysia",
+                    "Kepantasan pembangunan ekonomi",
+                    "Kepelbagaian flora dan fauna"
+                ],
+                answer: 1,
+                yearImage: 3 // Kini
+            },
+            {
+                q: "Manakah antara berikut mewakili simbol Negeri-negeri Selat pada Jata Negara Kini?",
+                options: [
+                    "Jambatan & Pokok Pinang (Pulau Pinang) dan Pokok Melaka (Melaka)",
+                    "Lima bilah keris",
+                    "Sekuntum bunga raya",
+                    "Dua ekor harimau"
+                ],
+                answer: 0,
+                yearImage: 3 // Kini
+            },
+            {
+                q: "Mengapakah Jata Negara dianggap sebagai lambang kebesaran yang perlu dihormati?",
+                options: [
+                    "Sebagai hiasan bangunan awam semata-mata",
+                    "Kerana ia lambang kedaulatan, identiti dan simbol perpaduan negara",
+                    "Supaya dikenali di peringkat antarabangsa sahaja",
+                    "Kerana diwajibkan oleh undang-undang antarabangsa"
+                ],
+                answer: 1,
+                yearImage: null
+            }
+        ];
+
+        /* -------------------------------------------------------------
+           STATE MANAGEMENT & AUDIO SYNTHESIZER (WEB AUDIO API)
+           ------------------------------------------------------------- */
+        let currentStoryIndex = 0;
+        let isBookOpen = false;
+        let coins = 0;
+        let currentQuizIndex = 0;
+        let quizScore = 0;
+        let audioEnabled = true;
+        let bgmPlaying = false;
+        let bgmVolume = 0.3;
+        let audioCtx = null;
+        let bgmMasterGain = null;
+        let bgmTimer = null;
+        let bgmNoteIndex = 0;
+
+        function getAudioContext() {
+            if (!audioCtx) {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                if (AudioContext) {
+                    audioCtx = new AudioContext();
+                }
+            }
+            if (audioCtx && audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            return audioCtx;
+        }
+
+        function toggleAudio() {
+            audioEnabled = !audioEnabled;
+            const btn = document.getElementById('sound-toggle');
+            btn.innerText = audioEnabled ? '🔊 SFX: ON' : '🔇 SFX: OFF';
+            if (audioEnabled) playSound('click');
+        }
+
+        /* -------------------------------------------------------------
+           SUPER MARIO CHIPTUNE BGM SYNTHESIZER
+           ------------------------------------------------------------- */
+        const marioBGMNotes = [
+            { f: 659.25, d: 0.15 }, { f: 659.25, d: 0.15 }, { f: 0, d: 0.15 }, { f: 659.25, d: 0.15 },
+            { f: 0, d: 0.15 }, { f: 523.25, d: 0.15 }, { f: 659.25, d: 0.15 }, { f: 0, d: 0.15 },
+            { f: 783.99, d: 0.30 }, { f: 0, d: 0.30 }, { f: 392.00, d: 0.30 }, { f: 0, d: 0.30 },
+            
+            { f: 523.25, d: 0.25 }, { f: 0, d: 0.15 }, { f: 392.00, d: 0.25 }, { f: 0, d: 0.15 },
+            { f: 329.63, d: 0.25 }, { f: 0, d: 0.15 }, { f: 440.00, d: 0.20 }, { f: 493.88, d: 0.20 },
+            { f: 466.16, d: 0.15 }, { f: 440.00, d: 0.20 }, { f: 392.00, d: 0.20 }, { f: 659.25, d: 0.20 },
+            { f: 783.99, d: 0.20 }, { f: 880.00, d: 0.20 }, { f: 698.46, d: 0.15 }, { f: 783.99, d: 0.15 },
+            { f: 0, d: 0.10 }, { f: 659.25, d: 0.20 }, { f: 523.25, d: 0.15 }, { f: 587.33, d: 0.15 },
+            { f: 493.88, d: 0.25 }, { f: 0, d: 0.25 }
+        ];
+
+        function toggleBGM() {
+            const ctx = getAudioContext();
+            bgmPlaying = !bgmPlaying;
+            const btn = document.getElementById('bgm-toggle');
+            
+            if (bgmPlaying) {
+                btn.innerText = '🎵 BGM: ON';
+                btn.classList.remove('bg-marioGreen');
+                btn.classList.add('bg-marioRed');
+                startBGMLoop();
+            } else {
+                btn.innerText = '🎵 BGM: OFF';
+                btn.classList.remove('bg-marioRed');
+                btn.classList.add('bg-marioGreen');
+                stopBGMLoop();
+            }
+        }
+
+        function changeBGMVolume(val) {
+            bgmVolume = parseFloat(val);
+            if (bgmMasterGain && audioCtx) {
+                bgmMasterGain.gain.setValueAtTime(bgmVolume * 0.2, audioCtx.currentTime);
+            }
+        }
+
+        function startBGMLoop() {
+            const ctx = getAudioContext();
+            if (!ctx) return;
+
+            if (!bgmMasterGain) {
+                bgmMasterGain = ctx.createGain();
+                bgmMasterGain.connect(ctx.destination);
+            }
+            bgmMasterGain.gain.setValueAtTime(bgmVolume * 0.2, ctx.currentTime);
+
+            bgmNoteIndex = 0;
+            playNextBGMNote();
+        }
+
+        function playNextBGMNote() {
+            if (!bgmPlaying) return;
+            const ctx = getAudioContext();
+            if (!ctx) return;
+
+            const note = marioBGMNotes[bgmNoteIndex];
+            if (note.f > 0) {
+                const osc = ctx.createOscillator();
+                const noteGain = ctx.createGain();
+                osc.type = 'square';
+                osc.frequency.setValueAtTime(note.f, ctx.currentTime);
+                
+                noteGain.gain.setValueAtTime(0.3, ctx.currentTime);
+                noteGain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + note.d - 0.02);
+                
+                osc.connect(noteGain);
+                noteGain.connect(bgmMasterGain);
+                
+                osc.start(ctx.currentTime);
+                osc.stop(ctx.currentTime + note.d);
+            }
+
+            bgmNoteIndex = (bgmNoteIndex + 1) % marioBGMNotes.length;
+            bgmTimer = setTimeout(playNextBGMNote, note.d * 1000);
+        }
+
+        function stopBGMLoop() {
+            if (bgmTimer) {
+                clearTimeout(bgmTimer);
+                bgmTimer = null;
+            }
+        }
+
+        function addCoin(amount = 1) {
+            coins += amount;
+            const counter = document.getElementById('coin-counter');
+            if (counter) {
+                counter.innerText = coins < 10 ? '0' + coins : coins;
+            }
+        }
+
+        function switchWorld(worldNum) {
+            playSound('jump');
+            
+            document.querySelectorAll('.world-stage').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.world-stage').forEach(el => el.classList.remove('block'));
+
+            const target = document.getElementById(`world-${worldNum}`);
+            if (target) {
+                target.classList.remove('hidden');
+                target.classList.add('block');
+            }
+
+            [1, 2, 3].forEach(num => {
+                const navBtn = document.getElementById(`nav-world-${num}`);
+                if (navBtn) {
+                    if (num === worldNum) {
+                        navBtn.className = "pixel-btn bg-marioRed text-white px-4 py-2 text-xs md:text-sm font-bold rounded-lg flex items-center gap-2";
+                    } else {
+                        navBtn.className = "pixel-btn bg-white text-black px-4 py-2 text-xs md:text-sm font-bold rounded-lg flex items-center gap-2";
+                    }
+                }
+            });
+        }
+
+        function playSound(type) {
+            if (!audioEnabled) return;
+            try {
+                const ctx = getAudioContext();
+                if (!ctx) return;
+                
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+
+                const now = ctx.currentTime;
+
+                if (type === 'click') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(800, now);
+                    osc.frequency.exponentialRampToValueAtTime(400, now + 0.04);
+                    gain.gain.setValueAtTime(0.2, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.04);
+                    osc.start(now);
+                    osc.stop(now + 0.04);
+                } else if (type === 'coin') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(987.77, now);
+                    osc.frequency.setValueAtTime(1318.51, now + 0.08);
+                    gain.gain.setValueAtTime(0.3, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                    osc.start(now);
+                    osc.stop(now + 0.3);
+                } else if (type === 'jump' || type === 'flip') {
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(300, now);
+                    osc.frequency.exponentialRampToValueAtTime(80, now + 0.2);
+                    gain.gain.setValueAtTime(0.3, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.2);
+                    osc.start(now);
+                    osc.stop(now + 0.2);
+                } else if (type === 'correct') {
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(523.25, now);
+                    osc.frequency.setValueAtTime(659.25, now + 0.1);
+                    osc.frequency.setValueAtTime(783.99, now + 0.2);
+                    osc.frequency.setValueAtTime(1046.50, now + 0.3);
+                    gain.gain.setValueAtTime(0.3, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.5);
+                    osc.start(now);
+                    osc.stop(now + 0.5);
+                } else if (type === 'wrong') {
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(180, now);
+                    osc.frequency.setValueAtTime(110, now + 0.1);
+                    gain.gain.setValueAtTime(0.3, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
+                    osc.start(now);
+                    osc.stop(now + 0.25);
+                }
+            } catch (e) {
+                console.log('Audio error', e);
+            }
+        }
+
+        /* -------------------------------------------------------------
+           GLOBAL CLICK SOUND ATTACHMENT FOR EVERY MOUSE CLICK
+           ------------------------------------------------------------- */
+        document.addEventListener('click', function (e) {
+            if (e.target.closest('button, a, input, [onclick], .q-block')) {
+                playSound('click');
+            }
+        });
+
+        /* -------------------------------------------------------------
+           BOOK COVER & FLIP ANIMATIONS
+           ------------------------------------------------------------- */
+        function openBook() {
+            playSound('flip');
+            addCoin(1);
+            isBookOpen = true;
+
+            const cover = document.getElementById('book-cover-page');
+            const inner = document.getElementById('book-inner-page');
+
+            cover.classList.add('rotate-y-180', 'opacity-0');
+            setTimeout(() => {
+                cover.classList.add('hidden');
+                inner.classList.remove('hidden');
+                inner.classList.remove('opacity-0');
+                updateStoryUI();
+            }, 400);
+        }
+
+        function closeBookToCover() {
+            playSound('flip');
+            isBookOpen = false;
+
+            const cover = document.getElementById('book-cover-page');
+            const inner = document.getElementById('book-inner-page');
+
+            inner.classList.add('hidden');
+            cover.classList.remove('hidden');
+            setTimeout(() => {
+                cover.classList.remove('rotate-y-180', 'opacity-0');
+            }, 50);
+        }
+
+        function updateStoryUI() {
+            const data = timelineData[currentStoryIndex];
+            
+            document.getElementById('current-year-tag').innerText = data.year;
+            document.getElementById('story-title').innerText = data.title;
+            document.getElementById('story-desc').innerText = data.desc;
+            document.getElementById('story-highlight').innerText = data.highlight;
+            document.getElementById('jata-caption').innerText = data.caption;
+            document.getElementById('page-num').innerText = currentStoryIndex + 1;
+
+            document.getElementById('jata-svg-container').innerHTML = `
+                <img src="${data.png}" alt="${data.caption}" class="w-full h-full object-contain drop-shadow-md" onerror="this.onerror=null; this.src='https://placehold.co/300x300/FBD000/000000?text=${encodeURIComponent(data.year + ' PNG')}';">
+            `;
+
+            timelineData.forEach((_, idx) => {
+                const btn = document.getElementById(`lvl-btn-${idx}`);
+                if (btn) {
+                    if (idx === currentStoryIndex) {
+                        btn.classList.add('neon-active');
+                        btn.classList.remove('opacity-60');
+                    } else {
+                        btn.classList.remove('neon-active');
+                        btn.classList.add('opacity-60');
+                    }
+                }
+            });
+
+            const prevBtn = document.getElementById('prev-story-btn');
+            const nextBtn = document.getElementById('next-story-btn');
+
+            if (currentStoryIndex === 0) {
+                prevBtn.disabled = true;
+                prevBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            } else {
+                prevBtn.disabled = false;
+                prevBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            }
+
+            if (currentStoryIndex === timelineData.length - 1) {
+                nextBtn.innerText = "Selesai Baca 🏆";
+                nextBtn.className = "pixel-btn bg-marioYellow text-black px-4 md:px-5 py-2.5 rounded-xl font-bold flex items-center gap-2 text-xs md:text-sm";
+            } else {
+                nextBtn.innerText = "Selak Muka Surat ➡️";
+                nextBtn.className = "pixel-btn bg-marioGreen text-white px-4 md:px-5 py-2.5 rounded-xl font-bold flex items-center gap-2 text-xs md:text-sm";
+            }
+        }
+
+        function changeStory(dir) {
+            const newIndex = currentStoryIndex + dir;
+            if (newIndex >= 0 && newIndex < timelineData.length) {
+                const inner = document.getElementById('book-inner-page');
+                
+                inner.classList.remove('page-turn-right', 'page-turn-left');
+                void inner.offsetWidth;
+                inner.classList.add(dir > 0 ? 'page-turn-right' : 'page-turn-left');
+                
+                playSound('flip');
+                
+                setTimeout(() => {
+                    currentStoryIndex = newIndex;
+                    addCoin(1);
+                    updateStoryUI();
+                }, 350);
+            } else if (newIndex >= timelineData.length) {
+                switchWorld(2);
+            }
+        }
+
+        function goToLevel(lvlIndex) {
+            if (!isBookOpen) {
+                openBook();
+            }
+            if (currentStoryIndex !== lvlIndex) {
+                const inner = document.getElementById('book-inner-page');
+                inner.classList.remove('page-turn-right', 'page-turn-left');
+                void inner.offsetWidth;
+                inner.classList.add(lvlIndex > currentStoryIndex ? 'page-turn-right' : 'page-turn-left');
+                
+                currentStoryIndex = lvlIndex;
+                playSound('flip');
+                setTimeout(() => {
+                    updateStoryUI();
+                }, 350);
+            }
+        }
+
+        /* -------------------------------------------------------------
+           WORLD 2: INTERACTIVE SYMBOL CARDS LOGIC (PNG & QUESTION BLOCK)
+           ------------------------------------------------------------- */
+        function renderSymbolCards() {
+            const container = document.getElementById('symbol-grid');
+            if (!container) return;
+            container.innerHTML = symbolData.map((item, index) => `
+                <div class="perspective-1000 h-64 cursor-pointer q-block" onclick="flipCard(${index})">
+                    <div id="card-inner-${index}" class="relative w-full h-full transform-style-3d transition-transform duration-500 rounded-2xl">
+                        
+                        <!-- Front Face (Question Block Style with PNG) -->
+                        <div class="absolute inset-0 backface-hidden ${item.color} pixel-box rounded-2xl p-4 flex flex-col justify-between items-center text-center text-white">
+                            <div class="w-full flex justify-between items-center">
+                                <span class="bg-black/30 px-3 py-1 rounded-full text-xs font-pixel text-yellow-300">
+                                    ${item.tag}
+                                </span>
+                                <img src="icon-question-block.png" alt="Question Block" class="w-9 h-9 md:w-10 md:h-10 object-contain filter drop-shadow" onerror="this.onerror=null; this.style.display='none';">
+                            </div>
+                            
+                            <div class="my-auto flex flex-col items-center">
+                                <div class="w-20 h-20 mb-2 flex items-center justify-center">
+                                    <img src="${item.png}" alt="${item.name}" class="max-w-full max-h-full object-contain filter drop-shadow" onerror="this.onerror=null; this.src='https://placehold.co/100x100/000/FFF?text=%E2%9D%93';">
+                                </div>
+                                <h3 class="font-bold text-sm md:text-base leading-snug drop-shadow-md">${item.name}</h3>
+                            </div>
+
+                            <div class="bg-marioYellow text-black font-pixel text-[11px] px-3.5 py-2 rounded-lg border-2 border-black animate-pulse flex items-center gap-1.5 shadow-md">
+                                <span>TEKAN UNTUK KUNCI</span>
+                                <img src="icon-question-block.png" alt="?" class="w-5 h-5 object-contain" onerror="this.onerror=null; this.style.display='none';">
+                            </div>
+                        </div>
+
+                        <!-- Back Face (Meaning Explanation) -->
+                        <div class="absolute inset-0 backface-hidden rotate-y-180 bg-white pixel-box rounded-2xl p-5 flex flex-col justify-between text-gray-800 border-2 border-amber-400">
+                            <div>
+                                <div class="flex items-center gap-2 mb-2 pb-2 border-b border-gray-200">
+                                    <img src="${item.png}" alt="${item.name}" class="w-8 h-8 object-contain" onerror="this.onerror=null; this.src='https://placehold.co/40x40/FBD000/000?text=Jata';">
+                                    <h4 class="font-bold text-sm text-marioBrick">${item.name}</h4>
+                                </div>
+                                <p class="text-xs md:text-sm leading-relaxed text-gray-700">
+                                    ${item.meaning}
+                                </p>
+                            </div>
+                            <span class="text-[10px] text-gray-400 text-center block font-pixel">Tekan lagi untuk tutup</span>
+                        </div>
+
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        const flippedStates = {};
+        function flipCard(index) {
+            playSound('coin');
+            addCoin(1);
+            const cardInner = document.getElementById(`card-inner-${index}`);
+            if (!cardInner) return;
+            flippedStates[index] = !flippedStates[index];
+            if (flippedStates[index]) {
+                cardInner.classList.add('rotate-y-180');
+            } else {
+                cardInner.classList.remove('rotate-y-180');
+            }
+        }
+
+        /* -------------------------------------------------------------
+           WORLD 3: QUIZ SYSTEM LOGIC
+           ------------------------------------------------------------- */
+        function startQuiz() {
+            currentQuizIndex = 0;
+            quizScore = 0;
+            playSound('jump');
+            document.getElementById('quiz-start-screen').classList.add('hidden');
+            document.getElementById('quiz-result-screen').classList.add('hidden');
+            document.getElementById('quiz-question-screen').classList.remove('hidden');
+            renderQuizQuestion();
+        }
+
+        function renderQuizQuestion() {
+            const qData = quizQuestions[currentQuizIndex];
+            document.getElementById('quiz-q-num').innerText = currentQuizIndex + 1;
+            document.getElementById('quiz-score').innerText = quizScore;
+            document.getElementById('quiz-question-text').innerText = qData.q;
+            
+            const imageContainer = document.getElementById('quiz-image-container');
+            if (qData.yearImage !== null && qData.yearImage !== undefined) {
+                const yearData = timelineData[qData.yearImage];
+                document.getElementById('quiz-jata-svg').innerHTML = `
+                    <img src="${yearData.png}" alt="Jata Negara ${yearData.year}" class="w-full h-full object-contain drop-shadow" onerror="this.onerror=null; this.src='https://placehold.co/150x150/FBD000/000?text=${encodeURIComponent(yearData.year)}';">
+                `;
+                document.getElementById('quiz-jata-label').innerText = `RUJUKAN GAMBAR JATA NEGARA TAHUN ${yearData.year}`;
+                imageContainer.classList.remove('hidden');
+            } else {
+                imageContainer.classList.add('hidden');
+            }
+
+            const feedbackEl = document.getElementById('quiz-feedback');
+            feedbackEl.className = "hidden p-3 rounded-xl text-center font-bold text-sm mb-4";
+            document.getElementById('quiz-next-btn').classList.add('hidden');
+
+            const optionsContainer = document.getElementById('quiz-options-container');
+            optionsContainer.innerHTML = qData.options.map((opt, i) => `
+                <button onclick="checkAnswer(${i})" class="quiz-opt-btn pixel-btn text-left p-4 rounded-xl bg-gray-50 hover:bg-marioYellow/20 font-semibold text-sm text-gray-800 transition flex items-start gap-3">
+                    <span class="w-6 h-6 rounded-full bg-marioYellow text-black font-pixel text-xs flex items-center justify-center shrink-0 border border-black">${String.fromCharCode(65 + i)}</span>
+                    <span>${opt}</span>
+                </button>
+            `).join('');
+        }
+
+        function checkAnswer(selectedIndex) {
+            const qData = quizQuestions[currentQuizIndex];
+            const feedbackEl = document.getElementById('quiz-feedback');
+            const optionBtns = document.querySelectorAll('.quiz-opt-btn');
+
+            optionBtns.forEach(btn => btn.onclick = null);
+
+            if (selectedIndex === qData.answer) {
+                quizScore++;
+                addCoin(5);
+                playSound('correct');
+                optionBtns[selectedIndex].classList.remove('bg-gray-50');
+                optionBtns[selectedIndex].classList.add('bg-green-200', 'border-green-600');
+                
+                feedbackEl.innerText = "🎉 TEPAT & BETUL! ( +5 Syiling Emas )";
+                feedbackEl.className = "block p-3 rounded-xl text-center font-bold text-sm mb-4 bg-green-100 text-green-800 border-2 border-green-500";
+            } else {
+                playSound('wrong');
+                optionBtns[selectedIndex].classList.remove('bg-gray-50');
+                optionBtns[selectedIndex].classList.add('bg-red-200', 'border-red-600');
+                
+                optionBtns[qData.answer].classList.add('bg-green-100', 'border-green-500');
+
+                feedbackEl.innerText = "❌ KURANG TEPAT! Jawapan betul diwarnakan hijau.";
+                feedbackEl.className = "block p-3 rounded-xl text-center font-bold text-sm mb-4 bg-red-100 text-red-800 border-2 border-red-500";
+            }
+
+            document.getElementById('quiz-score').innerText = quizScore;
+            document.getElementById('quiz-next-btn').classList.remove('hidden');
+        }
+
+        function nextQuestion() {
+            playSound('jump');
+            currentQuizIndex++;
+            if (currentQuizIndex < quizQuestions.length) {
+                renderQuizQuestion();
+            } else {
+                showQuizResults();
+            }
+        }
+
+        function showQuizResults() {
+            playSound('correct');
+            document.getElementById('quiz-question-screen').classList.add('hidden');
+            document.getElementById('quiz-result-screen').classList.remove('hidden');
+            
+            document.getElementById('final-score-text').innerText = `${quizScore} / ${quizQuestions.length}`;
+
+            const evalText = document.getElementById('final-eval-text');
+            const iconEl = document.getElementById('result-icon');
+
+            if (quizScore >= 8) {
+                iconEl.innerText = "👑";
+                evalText.innerText = "Sempurna & Cemerlang! Anda Pahlawan Sejarah Jata Negara!";
+            } else if (quizScore >= 5) {
+                iconEl.innerText = "🌟";
+                evalText.innerText = "Syabas! Syarat pengetahuan anda amat mantap!";
+            } else {
+                iconEl.innerText = "🍄";
+                evalText.innerText = "Boleh cuba lagi! Sila ulang baca Dunia 1 & 2 untuk menguasai fakta.";
+            }
+        }
+
+        /* -------------------------------------------------------------
+           GLOSSARY MODAL
+           ------------------------------------------------------------- */
+        function toggleGlossary(show) {
+            playSound('coin');
+            const modal = document.getElementById('glossary-modal');
+            if (show) {
+                modal.classList.remove('hidden');
+            } else {
+                modal.classList.add('hidden');
+            }
+        }
+
+        /* -------------------------------------------------------------
+           INITIALIZATION ON WINDOW LOAD
+           ------------------------------------------------------------- */
+        window.onload = function () {
+            updateStoryUI();
+            renderSymbolCards();
+        }
+    </script>
+</body>
+</html>
