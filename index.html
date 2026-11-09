@@ -132,13 +132,30 @@
         /* Custom Scrollbar */
         ::-webkit-scrollbar {
             width: 10px;
+            height: 8px;
         }
         ::-webkit-scrollbar-track {
             background: #5C94FC;
+            border-radius: 4px;
         }
         ::-webkit-scrollbar-thumb {
             background: #FBD000;
             border: 2px solid #000;
+            border-radius: 4px;
+        }
+        
+        /* Mobile Touch target & responsiveness improvements */
+        @media (max-width: 640px) {
+            .book-container {
+                min-height: auto;
+            }
+            .parchment-bg {
+                padding: 1.25rem 1rem !important;
+                border-width: 5px !important;
+            }
+            .neon-timeline-btn {
+                padding: 0.5rem 0.75rem !important;
+            }
         }
     </style>
 </head>
@@ -169,41 +186,39 @@
     </div>
 
     <!-- Top Header Bar / Arcade Status Bar -->
-    <header class="relative z-20 bg-marioRed border-b-4 border-black text-white p-3 md:p-4 shadow-md">
-        <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+    <header class="relative z-20 bg-marioRed border-b-4 border-black text-white p-2.5 sm:p-3 md:p-4 shadow-md">
+        <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2.5 sm:gap-3">
             <!-- App Title -->
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 bg-marioYellow rounded-full pixel-box flex items-center justify-center text-black font-pixel text-xl font-bold">
+            <div class="flex items-center gap-2.5 sm:gap-3 text-center sm:text-left">
+                <div class="w-8 h-8 sm:w-10 sm:h-10 bg-marioYellow rounded-full pixel-box flex items-center justify-center text-black font-pixel text-base sm:text-xl font-bold shrink-0">
                     ★
                 </div>
                 <div>
-                    <h1 class="font-pixel text-lg md:text-xl text-marioYellow drop-shadow-[2px_2px_0px_#000]">
+                    <h1 class="font-pixel text-base sm:text-lg md:text-xl text-marioYellow drop-shadow-[2px_2px_0px_#000]">
                         SEJARAH JATA NEGARA
                     </h1>
-                    <p class="text-xs md:text-sm text-yellow-100 font-semibold">Buku Cerita Interaktif PdP 
-                
-                    </p>
+                    <p class="text-[11px] sm:text-xs md:text-sm text-yellow-100 font-semibold">Buku Cerita Interaktif PdP </p>
                 </div>
             </div>
 
             <!-- Sound & Score Bar -->
-            <div class="flex items-center gap-3 sm:gap-4 bg-black/30 px-3 sm:px-4 py-2 rounded-xl pixel-box flex-wrap">
-                <div class="flex items-center gap-2 text-marioYellow font-pixel text-xs">
-                    <img src="coin.png" alt="Coin" class="w-8 h-8 md:w-9 md:h-9 object-contain animate-pulse filter drop-shadow" onerror="this.onerror=null; this.src='icon-coin.png'; this.onerror=function(){this.src='https://placehold.co/50x50/FBD000/000000?text=🪙';}">
-                    <span class="text-xs md:text-sm">COINS:</span>
-                    <span id="coin-counter" class="text-white text-base md:text-lg">00</span>
+            <div class="flex items-center justify-center gap-2.5 sm:gap-4 bg-black/30 px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl pixel-box flex-wrap w-full sm:w-auto">
+                <div class="flex items-center gap-1.5 sm:gap-2 text-marioYellow font-pixel text-[11px] sm:text-xs">
+                    <img src="coin.png" alt="Coin" class="w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9 object-contain animate-pulse filter drop-shadow" onerror="this.onerror=null; this.src='icon-coin.png'; this.onerror=function(){this.src='https://placehold.co/50x50/FBD000/000000?text=🪙';}">
+                    <span class="text-xs sm:text-sm">COINS:</span>
+                    <span id="coin-counter" class="text-white text-sm sm:text-base md:text-lg">00</span>
                 </div>
                 <div class="h-4 w-1 bg-white/40 hidden sm:block"></div>
                 
                 <!-- BGM Controls with Volume Slider -->
                 <div class="flex items-center gap-2 bg-black/40 px-2 py-1 rounded border border-yellow-400/50">
-                    <button id="bgm-toggle" onclick="toggleBGM()" class="text-[10px] font-pixel bg-marioGreen text-white px-2 py-1 rounded border border-black hover:bg-green-500 transition shrink-0">
+                    <button id="bgm-toggle" onclick="toggleBGM()" class="text-[9px] sm:text-[10px] font-pixel bg-marioGreen text-white px-2 py-1 rounded border border-black hover:bg-green-500 transition shrink-0">
                         🎵 BGM: OFF
                     </button>
-                    <input type="range" id="bgm-volume" min="0" max="1" step="0.05" value="0.3" oninput="changeBGMVolume(this.value)" class="w-16 sm:w-20 accent-marioYellow cursor-pointer" title="Adjust BGM Volume">
+                    <input type="range" id="bgm-volume" min="0" max="1" step="0.05" value="0.3" oninput="changeBGMVolume(this.value)" class="w-14 sm:w-16 md:w-20 accent-marioYellow cursor-pointer" title="Adjust BGM Volume">
                 </div>
 
-                <button id="sound-toggle" onclick="toggleAudio()" class="text-xs font-pixel bg-marioYellow text-black px-2 py-1 rounded border-2 border-black hover:bg-yellow-300 shrink-0">
+                <button id="sound-toggle" onclick="toggleAudio()" class="text-[10px] sm:text-xs font-pixel bg-marioYellow text-black px-2 py-1 rounded border-2 border-black hover:bg-yellow-300 shrink-0">
                     🔊 SFX: ON
                 </button>
             </div>
@@ -211,135 +226,135 @@
     </header>
 
     <!-- World Navigation Bar -->
-    <nav class="relative z-20 bg-marioYellow border-b-4 border-black py-2 px-4 shadow-md">
-        <div class="max-w-4xl mx-auto flex justify-center gap-2 md:gap-4 flex-wrap">
-            <button onclick="switchWorld(1)" id="nav-world-1" class="pixel-btn bg-marioRed text-white px-4 py-2 text-xs md:text-sm font-bold rounded-lg flex items-center gap-2">
+    <nav class="relative z-20 bg-marioYellow border-b-4 border-black py-2 px-2 sm:px-4 shadow-md">
+        <div class="max-w-4xl mx-auto flex justify-center gap-1.5 sm:gap-3 md:gap-4 flex-wrap">
+            <button onclick="switchWorld(1)" id="nav-world-1" class="pixel-btn bg-marioRed text-white px-2.5 sm:px-4 py-1.5 sm:py-2 text-[11px] sm:text-xs md:text-sm font-bold rounded-lg flex items-center gap-1.5 sm:gap-2">
                 <span>🏰</span> DUNIA 1: Garis Masa
             </button>
-            <button onclick="switchWorld(2)" id="nav-world-2" class="pixel-btn bg-white text-black px-4 py-2 text-xs md:text-sm font-bold rounded-lg flex items-center gap-2">
+            <button onclick="switchWorld(2)" id="nav-world-2" class="pixel-btn bg-white text-black px-2.5 sm:px-4 py-1.5 sm:py-2 text-[11px] sm:text-xs md:text-sm font-bold rounded-lg flex items-center gap-2">
                 <span>❓</span> DUNIA 2: Galeri Lambang
             </button>
-            <button onclick="switchWorld(3)" id="nav-world-3" class="pixel-btn bg-white text-black px-4 py-2 text-xs md:text-sm font-bold rounded-lg flex items-center gap-2">
+            <button onclick="switchWorld(3)" id="nav-world-3" class="pixel-btn bg-white text-black px-2.5 sm:px-4 py-1.5 sm:py-2 text-[11px] sm:text-xs md:text-sm font-bold rounded-lg flex items-center gap-2">
                 <span>🎮</span> DUNIA 3: Kuiz Cabaran
             </button>
         </div>
     </nav>
 
     <!-- Main Content Container -->
-    <main class="relative z-10 max-w-5xl mx-auto px-4 py-6 flex-grow w-full">
+    <main class="relative z-10 max-w-5xl mx-auto px-2 sm:px-4 py-4 sm:py-6 flex-grow w-full">
 
         <!-- ================= WORLD 1: GARIS MASA (TIMELINE STORYBOOK) ================= -->
         <section id="world-1" class="world-stage block">
             <!-- Stage Banner -->
-            <div class="bg-white/90 backdrop-blur pixel-box p-4 rounded-xl mb-6 text-center">
-                <span class="font-pixel text-xs text-marioRed tracking-wider uppercase block mb-1">WORLD 1-1 • HISTORICAL FLIP BOOK</span>
-                <h2 class="text-2xl md:text-3xl font-bold text-gray-800">Perkembangan & Evolusi Jata Negara</h2>
-                <p class="text-sm text-gray-600 mt-1">Pilih tahun pada Garis Masa Neon atau selak muka surat untuk membaca cerita sejarah.</p>
+            <div class="bg-white/90 backdrop-blur pixel-box p-3 sm:p-4 rounded-xl mb-4 sm:mb-6 text-center">
+                <span class="font-pixel text-[10px] sm:text-xs text-marioRed tracking-wider uppercase block mb-1">WORLD 1-1 • HISTORICAL FLIP BOOK</span>
+                <h2 class="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800">Perkembangan & Evolusi Jata Negara</h2>
+                <p class="text-xs sm:text-sm text-gray-600 mt-1">Pilih tahun pada Garis Masa Neon atau selak muka surat untuk membaca cerita sejarah.</p>
             </div>
 
-            <!-- Glowing Neon Timeline Bar (Clear & Visible without Obscuring Circles) -->
-            <div class="mb-8 max-w-3xl mx-auto px-2">
-                <div class="bg-black/80 p-3 rounded-2xl pixel-box border-2 border-marioYellow flex items-center justify-between gap-2 md:gap-4 relative overflow-x-auto">
+            <!-- Glowing Neon Timeline Bar (Optimized for Mobile Horizontal Scroll) -->
+            <div class="mb-6 sm:mb-8 max-w-3xl mx-auto px-1">
+                <div class="bg-black/80 p-2.5 sm:p-3 rounded-2xl pixel-box border-2 border-marioYellow flex items-center justify-between gap-2 sm:gap-4 relative overflow-x-auto no-scrollbar">
                     
                     <!-- Line Track -->
-                    <div class="absolute top-1/2 left-6 right-6 h-1.5 bg-gradient-to-r from-red-500 via-yellow-400 to-green-400 -translate-y-1/2 z-0 opacity-70"></div>
+                    <div class="absolute top-1/2 left-6 right-6 h-1.5 bg-gradient-to-r from-red-500 via-yellow-400 to-green-400 -translate-y-1/2 z-0 opacity-70 min-w-[280px]"></div>
 
                     <!-- 1948 Button -->
-                    <button onclick="goToLevel(0)" id="lvl-btn-0" class="neon-timeline-btn relative z-10 px-3 md:px-5 py-2.5 rounded-xl bg-gradient-to-b from-yellow-300 to-amber-500 border-2 border-black font-pixel text-xs md:text-sm text-black font-bold flex flex-col items-center gap-1 shrink-0">
-                        <span class="text-[10px] text-amber-900 leading-none">STAGE 1</span>
-                        <span class="text-sm md:text-base tracking-wider">1948</span>
+                    <button onclick="goToLevel(0)" id="lvl-btn-0" class="neon-timeline-btn relative z-10 px-2.5 sm:px-4 md:px-5 py-2 sm:py-2.5 rounded-xl bg-gradient-to-b from-yellow-300 to-amber-500 border-2 border-black font-pixel text-[11px] sm:text-xs md:text-sm text-black font-bold flex flex-col items-center gap-0.5 sm:gap-1 shrink-0">
+                        <span class="text-[9px] sm:text-[10px] text-amber-900 leading-none">STAGE 1</span>
+                        <span class="text-xs sm:text-sm md:text-base tracking-wider">1948</span>
                     </button>
 
-                    <div class="text-yellow-400 font-pixel text-xs z-10 hidden sm:block">➔</div>
+                    <div class="text-yellow-400 font-pixel text-xs z-10 shrink-0">➔</div>
 
                     <!-- 1963 Button -->
-                    <button onclick="goToLevel(1)" id="lvl-btn-1" class="neon-timeline-btn relative z-10 px-3 md:px-5 py-2.5 rounded-xl bg-gradient-to-b from-yellow-300 to-amber-500 border-2 border-black font-pixel text-xs md:text-sm text-black font-bold flex flex-col items-center gap-1 shrink-0">
-                        <span class="text-[10px] text-amber-900 leading-none">STAGE 2</span>
-                        <span class="text-sm md:text-base tracking-wider">1963</span>
+                    <button onclick="goToLevel(1)" id="lvl-btn-1" class="neon-timeline-btn relative z-10 px-2.5 sm:px-4 md:px-5 py-2 sm:py-2.5 rounded-xl bg-gradient-to-b from-yellow-300 to-amber-500 border-2 border-black font-pixel text-[11px] sm:text-xs md:text-sm text-black font-bold flex flex-col items-center gap-0.5 sm:gap-1 shrink-0">
+                        <span class="text-[9px] sm:text-[10px] text-amber-900 leading-none">STAGE 2</span>
+                        <span class="text-xs sm:text-sm md:text-base tracking-wider">1963</span>
                     </button>
 
-                    <div class="text-yellow-400 font-pixel text-xs z-10 hidden sm:block">➔</div>
+                    <div class="text-yellow-400 font-pixel text-xs z-10 shrink-0">➔</div>
 
                     <!-- 1965 Button -->
-                    <button onclick="goToLevel(2)" id="lvl-btn-2" class="neon-timeline-btn relative z-10 px-3 md:px-5 py-2.5 rounded-xl bg-gradient-to-b from-yellow-300 to-amber-500 border-2 border-black font-pixel text-xs md:text-sm text-black font-bold flex flex-col items-center gap-1 shrink-0">
-                        <span class="text-[10px] text-amber-900 leading-none">STAGE 3</span>
-                        <span class="text-sm md:text-base tracking-wider">1965</span>
+                    <button onclick="goToLevel(2)" id="lvl-btn-2" class="neon-timeline-btn relative z-10 px-2.5 sm:px-4 md:px-5 py-2 sm:py-2.5 rounded-xl bg-gradient-to-b from-yellow-300 to-amber-500 border-2 border-black font-pixel text-[11px] sm:text-xs md:text-sm text-black font-bold flex flex-col items-center gap-0.5 sm:gap-1 shrink-0">
+                        <span class="text-[9px] sm:text-[10px] text-amber-900 leading-none">STAGE 3</span>
+                        <span class="text-xs sm:text-sm md:text-base tracking-wider">1965</span>
                     </button>
 
-                    <div class="text-yellow-400 font-pixel text-xs z-10 hidden sm:block">➔</div>
+                    <div class="text-yellow-400 font-pixel text-xs z-10 shrink-0">➔</div>
 
                     <!-- Kini Button -->
-                    <button onclick="goToLevel(3)" id="lvl-btn-3" class="neon-timeline-btn relative z-10 px-3 md:px-5 py-2.5 rounded-xl bg-gradient-to-b from-yellow-300 to-amber-500 border-2 border-black font-pixel text-xs md:text-sm text-black font-bold flex flex-col items-center gap-1 shrink-0">
-                        <span class="text-[10px] text-amber-900 leading-none">STAGE 4</span>
-                        <span class="text-sm md:text-base tracking-wider">KINI</span>
+                    <button onclick="goToLevel(3)" id="lvl-btn-3" class="neon-timeline-btn relative z-10 px-2.5 sm:px-4 md:px-5 py-2 sm:py-2.5 rounded-xl bg-gradient-to-b from-yellow-300 to-amber-500 border-2 border-black font-pixel text-[11px] sm:text-xs md:text-sm text-black font-bold flex flex-col items-center gap-0.5 sm:gap-1 shrink-0">
+                        <span class="text-[9px] sm:text-[10px] text-amber-900 leading-none">STAGE 4</span>
+                        <span class="text-xs sm:text-sm md:text-base tracking-wider">KINI</span>
                     </button>
 
                 </div>
             </div>
 
             <!-- 3D Book Container -->
-            <div class="book-container relative min-h-[500px] max-w-4xl mx-auto">
+            <div class="book-container relative min-h-[420px] sm:min-h-[500px] max-w-4xl mx-auto">
                 
                 <!-- FRONT COVER PAGE (MUKA DEPAN) -->
-                <div id="book-cover-page" class="parchment-bg rounded-2xl p-6 md:p-10 text-center flex flex-col justify-between items-center min-h-[480px] relative z-20 shadow-2xl transition-all duration-700">
-                    <div class="w-full flex justify-between items-center border-b-2 border-amber-900/40 pb-3">
-                        <span class="font-pixel text-xs text-amber-900">EDISI KHAS PdP SEJARAH</span>
-                        <span class="font-pixel text-xs bg-marioRed text-white px-2 py-1 rounded">MARIO x VINTAGE</span>
+                <div id="book-cover-page" class="parchment-bg rounded-2xl p-4 sm:p-6 md:p-10 text-center flex flex-col justify-between items-center min-h-[440px] sm:min-h-[480px] relative z-20 shadow-2xl transition-all duration-700">
+                    <div class="w-full flex justify-between items-center border-b-2 border-amber-900/40 pb-2 sm:pb-3">
+                        <span class="font-pixel text-[10px] sm:text-xs text-amber-900">EDISI KHAS PdP SEJARAH</span>
+                        <span class="font-pixel text-[10px] sm:text-xs bg-marioRed text-white px-2 py-0.5 sm:py-1 rounded">MARIO x VINTAGE</span>
                     </div>
 
-                    <div class="my-auto py-4">
-                        <!-- Replaced Crown with Jata Negara Kini (jata-kini.png) -->
-                        <div class="w-32 h-32 md:w-36 md:h-36 mx-auto mb-4 bg-amber-100/90 rounded-full pixel-box flex items-center justify-center p-3 shadow-lg border-4 border-black animate-bounce">
+                    <div class="my-auto py-3 sm:py-4">
+                        <!-- Jata Negara Kini Image Frame -->
+                        <div class="w-28 h-28 sm:w-32 sm:h-32 md:w-36 md:h-36 mx-auto mb-3 sm:mb-4 bg-amber-100/90 rounded-full pixel-box flex items-center justify-center p-2.5 sm:p-3 shadow-lg border-4 border-black animate-bounce">
                             <img src="jata-kini.png" alt="Jata Negara Kini" class="w-full h-full object-contain filter drop-shadow-md" onerror="this.onerror=null; this.src='https://placehold.co/150x150/FBD000/000000?text=JATA+KINI';">
                         </div>
-                        <h2 class="font-pixel text-xl md:text-3xl text-amber-950 mb-3 tracking-wide drop-shadow-sm">
-                            JOM BELAJAR<br><span class="text-marioRed text-2xl md:text-4xl">SEJARAH JATA NEGARA</span>
+                        <h2 class="font-pixel text-lg sm:text-xl md:text-3xl text-amber-950 mb-2 sm:mb-3 tracking-wide drop-shadow-sm">
+                            JOM BELAJAR<br><span class="text-marioRed text-xl sm:text-2xl md:text-4xl">SEJARAH JATA NEGARA</span>
                         </h2>
-                        <div class="w-32 h-1 bg-marioYellow mx-auto mb-4 border border-black"></div>
-                        <p class="text-sm md:text-base text-amber-900 max-w-md mx-auto font-semibold">
+                        <div class="w-24 sm:w-32 h-1 bg-marioYellow mx-auto mb-3 sm:mb-4 border border-black"></div>
+                        <p class="text-xs sm:text-sm md:text-base text-amber-900 max-w-md mx-auto font-semibold">
                             Terokai garis masa, evolusi rekaan, serta lambang kebesaran tanah air kita secara interaktif!
                         </p>
                     </div>
 
-                    <button onclick="openBook()" class="pixel-btn bg-marioGreen hover:bg-green-600 text-white font-pixel text-xs md:text-sm px-8 py-4 rounded-xl flex items-center gap-3 text-lg shadow-xl">
+                    <button onclick="openBook()" class="pixel-btn bg-marioGreen hover:bg-green-600 text-white font-pixel text-xs sm:text-sm px-6 sm:px-8 py-3 sm:py-4 rounded-xl flex items-center gap-2 sm:gap-3 text-sm sm:text-lg shadow-xl">
                         📖 BUKA BUKU STORYBOOK 🚀
                     </button>
                 </div>
 
                 <!-- STORYBOOK PAGE CONTENT (PARCHMENT VINTAGE LOOK) -->
-                <div id="book-inner-page" class="parchment-bg rounded-2xl p-6 md:p-8 flex flex-col justify-between min-h-[480px] shadow-2xl relative z-10 hidden transition-all duration-700">
+                <div id="book-inner-page" class="parchment-bg rounded-2xl p-4 sm:p-6 md:p-8 flex flex-col justify-between min-h-[440px] sm:min-h-[480px] shadow-2xl relative z-10 hidden transition-all duration-700">
                     <!-- Top Ribbons -->
-                    <div class="flex justify-between items-center border-b-2 border-amber-900/30 pb-3">
+                    <div class="flex justify-between items-center border-b-2 border-amber-900/30 pb-2.5 sm:pb-3">
                         <div class="flex items-center gap-2">
-                            <span class="font-pixel text-xs bg-amber-900 text-amber-100 px-2.5 py-1 rounded">HALAMAN <span id="page-num">1</span> / 4</span>
+                            <span class="font-pixel text-[10px] sm:text-xs bg-amber-900 text-amber-100 px-2 sm:px-2.5 py-0.5 sm:py-1 rounded">HALAMAN <span id="page-num">1</span> / 4</span>
                             <span class="text-xs font-bold text-amber-900 hidden sm:inline">| Garis Masa Sejarah</span>
                         </div>
-                        <div class="text-xs font-pixel text-amber-900">
+                        <div class="text-[11px] sm:text-xs font-pixel text-amber-900">
                             TAHUN: <span id="current-year-tag" class="bg-marioRed text-white px-2 py-0.5 rounded shadow">1948</span>
                         </div>
                     </div>
 
                     <!-- Story Page Content -->
-                    <div id="story-content" class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center my-4">
+                    <div id="story-content" class="grid grid-cols-1 md:grid-cols-12 gap-4 sm:gap-6 items-center my-3 sm:my-4">
                         <!-- Dynamic PNG Graphic Display -->
-                        <div class="md:col-span-5 flex flex-col items-center justify-center bg-amber-100/60 p-4 rounded-xl border-2 border-amber-400/80 shadow-inner">
-                            <div id="jata-svg-container" class="w-48 h-48 md:w-56 md:h-56 flex items-center justify-center drop-shadow-md">
+                        <div class="md:col-span-5 flex flex-col items-center justify-center bg-amber-100/60 p-3 sm:p-4 rounded-xl border-2 border-amber-400/80 shadow-inner">
+                            <div id="jata-svg-container" class="w-36 h-36 sm:w-48 sm:h-48 md:w-56 md:h-56 flex items-center justify-center drop-shadow-md">
                                 <!-- PNG image dynamically injected here -->
                             </div>
-                            <span id="jata-caption" class="text-xs font-bold text-amber-950 mt-2 text-center bg-amber-200/80 px-3 py-1 rounded-full border border-amber-400">
+                            <span id="jata-caption" class="text-[11px] sm:text-xs font-bold text-amber-950 mt-2 text-center bg-amber-200/80 px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full border border-amber-400">
                                 Ilustrasi Jata Negara 1948
                             </span>
                         </div>
 
                         <!-- Story Text Info -->
                         <div class="md:col-span-7 flex flex-col justify-center">
-                            <h3 id="story-title" class="text-2xl md:text-3xl font-bold text-amber-950 mb-3">
+                            <h3 id="story-title" class="text-xl sm:text-2xl md:text-3xl font-bold text-amber-950 mb-2 sm:mb-3">
                                 1948: Jata Negara Persekutuan Tanah Melayu
                             </h3>
-                            <p id="story-desc" class="text-amber-900 text-base md:text-lg leading-relaxed mb-4">
+                            <p id="story-desc" class="text-amber-900 text-xs sm:text-base md:text-lg leading-relaxed mb-3 sm:mb-4">
                                 Jata Negara diperkenalkan buat pertama kali pada tahun 1948 untuk Persekutuan Tanah Melayu. Ia menampilkan lambang lima bilah keris, lambang Pulau Pinang, Melaka serta empat warna di dalam petak (putih, merah, hitam dan kuning) pada sebuah perisai yang disokong oleh dua ekor harimau.
                             </p>
-                            <div class="bg-amber-200/50 p-4 rounded-xl border-l-4 border-marioRed text-sm text-amber-950">
+                            <div class="bg-amber-200/50 p-3 sm:p-4 rounded-xl border-l-4 border-marioRed text-xs sm:text-sm text-amber-950">
                                 <strong>Ciri Khas & Cogan Kata:</strong>
                                 <p id="story-highlight" class="mt-1">
                                     Terdapat lambang bintang pecah 11 serta bulan sabit kuning di atas perisai. Cogan kata "Bersekutu Bertambah Mutu" ditulis dalam tulisan Jawi dan Bahasa Inggeris ("UNITY IS STRENGTH").
@@ -349,15 +364,15 @@
                     </div>
 
                     <!-- Storybook Navigation Controls -->
-                    <div class="flex justify-between items-center pt-4 border-t-2 border-amber-900/30">
-                        <button id="prev-story-btn" onclick="changeStory(-1)" class="pixel-btn bg-amber-800 text-amber-100 px-4 md:px-5 py-2.5 rounded-xl font-bold flex items-center gap-2 text-xs md:text-sm" disabled>
-                            ⬅️ Muka Surat Lepas
+                    <div class="flex justify-between items-center pt-3 sm:pt-4 border-t-2 border-amber-900/30 gap-2">
+                        <button id="prev-story-btn" onclick="changeStory(-1)" class="pixel-btn bg-amber-800 text-amber-100 px-3 sm:px-4 md:px-5 py-2 sm:py-2.5 rounded-xl font-bold flex items-center gap-1.5 sm:gap-2 text-[11px] sm:text-xs md:text-sm shrink-0" disabled>
+                            ⬅️ <span class="hidden sm:inline">Muka Surat</span> Lepas
                         </button>
-                        <button onclick="closeBookToCover()" class="text-xs text-amber-900 font-pixel underline hover:text-marioRed">
+                        <button onclick="closeBookToCover()" class="text-[11px] sm:text-xs text-amber-900 font-pixel underline hover:text-marioRed shrink-0">
                             📕 Muka Depan
                         </button>
-                        <button id="next-story-btn" onclick="changeStory(1)" class="pixel-btn bg-marioGreen text-white px-4 md:px-5 py-2.5 rounded-xl font-bold flex items-center gap-2 text-xs md:text-sm">
-                            Selak Muka Surat ➡️
+                        <button id="next-story-btn" onclick="changeStory(1)" class="pixel-btn bg-marioGreen text-white px-3 sm:px-4 md:px-5 py-2 sm:py-2.5 rounded-xl font-bold flex items-center gap-1.5 sm:gap-2 text-[11px] sm:text-xs md:text-sm shrink-0">
+                            Selak <span class="hidden sm:inline">Muka Surat</span> ➡️
                         </button>
                     </div>
                 </div>
@@ -367,94 +382,94 @@
 
         <!-- ================= WORLD 2: GALERI LAMBANG (SYMBOL EXPLORER) ================= -->
         <section id="world-2" class="world-stage hidden">
-            <div class="bg-white/90 backdrop-blur pixel-box p-4 rounded-xl mb-6 text-center">
-                <span class="font-pixel text-xs text-marioBlue tracking-wider uppercase block mb-1">WORLD 1-2 • QUESTION BLOCK GALLERY</span>
-                <h2 class="text-2xl md:text-3xl font-bold text-gray-800">Kenali Lambang & Makna Jata Negara</h2>
-                <p class="text-sm text-gray-600 mt-1">Klik pada blok soalan ❓ untuk membongkar maksud setiap lambang pada Jata Negara!</p>
+            <div class="bg-white/90 backdrop-blur pixel-box p-3 sm:p-4 rounded-xl mb-4 sm:mb-6 text-center">
+                <span class="font-pixel text-[10px] sm:text-xs text-marioBlue tracking-wider uppercase block mb-1">WORLD 1-2 • QUESTION BLOCK GALLERY</span>
+                <h2 class="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800">Kenali Lambang & Makna Jata Negara</h2>
+                <p class="text-xs sm:text-sm text-gray-600 mt-1">Klik pada blok soalan ❓ untuk membongkar maksud setiap lambang pada Jata Negara!</p>
             </div>
 
             <!-- Grid Container for Question Cards -->
-            <div id="symbol-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            <div id="symbol-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 max-w-5xl mx-auto">
                 <!-- Cards dynamically populated by JavaScript -->
             </div>
         </section>
 
         <!-- ================= WORLD 3: KUIZ CABARAN (MARIO QUIZ GAME) ================= -->
         <section id="world-3" class="world-stage hidden">
-            <div class="bg-white/90 backdrop-blur pixel-box p-4 rounded-xl mb-6 text-center">
-                <span class="font-pixel text-xs text-marioGreen tracking-wider uppercase block mb-1">WORLD 1-3 • SUPER JATA QUIZ</span>
-                <h2 class="text-2xl md:text-3xl font-bold text-gray-800">Cabaran Kuiz Sejarah</h2>
-                <p class="text-sm text-gray-600 mt-1">Uji kefahaman anda dan dapatkan syiling emas sebanyak mungkin!</p>
+            <div class="bg-white/90 backdrop-blur pixel-box p-3 sm:p-4 rounded-xl mb-4 sm:mb-6 text-center">
+                <span class="font-pixel text-[10px] sm:text-xs text-marioGreen tracking-wider uppercase block mb-1">WORLD 1-3 • SUPER JATA QUIZ</span>
+                <h2 class="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800">Cabaran Kuiz Sejarah</h2>
+                <p class="text-xs sm:text-sm text-gray-600 mt-1">Uji kefahaman anda dan dapatkan syiling emas sebanyak mungkin!</p>
             </div>
 
-            <div class="max-w-2xl mx-auto bg-white pixel-box-lg rounded-2xl p-6 md:p-8">
+            <div class="max-w-2xl mx-auto bg-white pixel-box-lg rounded-2xl p-4 sm:p-6 md:p-8">
                 <!-- Quiz Start Screen -->
-                <div id="quiz-start-screen" class="text-center py-6">
-                    <div class="text-6xl mb-4 animate-bounce">🎮</div>
-                    <h3 class="font-pixel text-xl text-marioBrick mb-3">KUIZ CABARAN SUPER JATA</h3>
-                    <p class="text-gray-600 mb-6 text-sm leading-relaxed">
-                        Jawab 5 soalan berkaitan Sejarah, Evolusi, dan Makna Lambang Jata Negara untuk mengumpul Markah & Syiling Emas!
+                <div id="quiz-start-screen" class="text-center py-4 sm:py-6">
+                    <div class="text-5xl sm:text-6xl mb-3 sm:mb-4 animate-bounce">🎮</div>
+                    <h3 class="font-pixel text-lg sm:text-xl text-marioBrick mb-2 sm:mb-3">KUIZ CABARAN SUPER JATA</h3>
+                    <p class="text-gray-600 mb-5 sm:mb-6 text-xs sm:text-sm leading-relaxed">
+                        Jawab 10 soalan berkaitan Sejarah, Evolusi, dan Makna Lambang Jata Negara untuk mengumpul Markah & Syiling Emas!
                     </p>
-                    <button onclick="startQuiz()" class="pixel-btn bg-marioRed text-white font-pixel text-sm px-8 py-4 rounded-xl hover:bg-red-600">
+                    <button onclick="startQuiz()" class="pixel-btn bg-marioRed text-white font-pixel text-xs sm:text-sm px-6 sm:px-8 py-3 sm:py-4 rounded-xl hover:bg-red-600">
                         MULAKAN KUIZ! 🚀
                     </button>
                 </div>
 
                 <!-- Quiz Question Screen -->
                 <div id="quiz-question-screen" class="hidden">
-                    <div class="flex justify-between items-center mb-4 pb-3 border-b-2 border-gray-200">
-                        <span class="font-pixel text-xs bg-marioYellow text-black px-3 py-1 rounded border border-black">
+                    <div class="flex justify-between items-center mb-3 sm:mb-4 pb-2.5 sm:pb-3 border-b-2 border-gray-200">
+                        <span class="font-pixel text-[10px] sm:text-xs bg-marioYellow text-black px-2.5 sm:px-3 py-1 rounded border border-black">
                             SOALAN <span id="quiz-q-num">1</span> / 10
                         </span>
-                        <span class="font-pixel text-xs text-marioRed">
+                        <span class="font-pixel text-[10px] sm:text-xs text-marioRed">
                             SKOR: <span id="quiz-score">0</span>
                         </span>
                     </div>
 
                     <!-- Visual Emblem Slot For Requested Year -->
-                    <div id="quiz-image-container" class="mb-4 bg-amber-50 p-3 rounded-xl border-2 border-amber-300 flex flex-col items-center justify-center hidden">
-                        <div id="quiz-jata-svg" class="w-28 h-28 flex items-center justify-center drop-shadow">
+                    <div id="quiz-image-container" class="mb-3 sm:mb-4 bg-amber-50 p-2.5 sm:p-3 rounded-xl border-2 border-amber-300 flex flex-col items-center justify-center hidden">
+                        <div id="quiz-jata-svg" class="w-24 h-24 sm:w-28 sm:h-28 flex items-center justify-center drop-shadow">
                             <!-- Injected PNG Image for requested year -->
                         </div>
-                        <span id="quiz-jata-label" class="text-[11px] font-pixel text-amber-900 mt-1 bg-amber-200 px-2 py-0.5 rounded">
+                        <span id="quiz-jata-label" class="text-[10px] sm:text-[11px] font-pixel text-amber-900 mt-1 bg-amber-200 px-2 py-0.5 rounded">
                             RUJUKAN GAMBAR JATA NEGARA TAHUN ...
                         </span>
                     </div>
 
-                    <h4 id="quiz-question-text" class="text-base md:text-lg font-bold text-gray-800 mb-6">
+                    <h4 id="quiz-question-text" class="text-sm sm:text-base md:text-lg font-bold text-gray-800 mb-4 sm:mb-6">
                         <!-- Question text -->
                     </h4>
 
-                    <div id="quiz-options-container" class="space-y-3 mb-6">
+                    <div id="quiz-options-container" class="space-y-2.5 sm:space-y-3 mb-4 sm:mb-6">
                         <!-- Option buttons -->
                     </div>
 
-                    <div id="quiz-feedback" class="hidden p-3 rounded-xl text-center font-bold text-sm mb-4">
+                    <div id="quiz-feedback" class="hidden p-2.5 sm:p-3 rounded-xl text-center font-bold text-xs sm:text-sm mb-4">
                         <!-- Feedback text -->
                     </div>
 
                     <div class="flex justify-end">
-                        <button id="quiz-next-btn" onclick="nextQuestion()" class="hidden pixel-btn bg-marioGreen text-white font-bold text-xs px-5 py-3 rounded-xl">
+                        <button id="quiz-next-btn" onclick="nextQuestion()" class="hidden pixel-btn bg-marioGreen text-white font-bold text-xs px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl">
                             Soalan Seterusnya ➔
                         </button>
                     </div>
                 </div>
 
                 <!-- Quiz Result Screen -->
-                <div id="quiz-result-screen" class="hidden text-center py-6">
-                    <div id="result-icon" class="text-6xl mb-3">👑</div>
-                    <h3 class="font-pixel text-lg text-black mb-2">KEPUTUSAN KUIZ</h3>
-                    <div class="text-3xl font-pixel text-marioYellow drop-shadow-[2px_2px_0px_#000] mb-4">
-                        <span id="final-score-text">5 / 5</span>
+                <div id="quiz-result-screen" class="hidden text-center py-4 sm:py-6">
+                    <div id="result-icon" class="text-5xl sm:text-6xl mb-3">👑</div>
+                    <h3 class="font-pixel text-base sm:text-lg text-black mb-2">KEPUTUSAN KUIZ</h3>
+                    <div class="text-2xl sm:text-3xl font-pixel text-marioYellow drop-shadow-[2px_2px_0px_#000] mb-4">
+                        <span id="final-score-text">5 / 10</span>
                     </div>
-                    <p id="final-eval-text" class="text-gray-700 font-semibold mb-6 text-sm">
+                    <p id="final-eval-text" class="text-gray-700 font-semibold mb-6 text-xs sm:text-sm">
                         Syabas! Anda telah menguasai subtopik Sejarah Jata Negara!
                     </p>
-                    <div class="flex justify-center gap-4">
-                        <button onclick="startQuiz()" class="pixel-btn bg-marioYellow text-black font-pixel text-xs px-5 py-3 rounded-xl">
+                    <div class="flex justify-center gap-3 sm:gap-4 flex-wrap">
+                        <button onclick="startQuiz()" class="pixel-btn bg-marioYellow text-black font-pixel text-xs px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl">
                             MAIN LAGI 🔄
                         </button>
-                        <button onclick="switchWorld(1)" class="pixel-btn bg-marioBlue text-white font-pixel text-xs px-5 py-3 rounded-xl">
+                        <button onclick="switchWorld(1)" class="pixel-btn bg-marioBlue text-white font-pixel text-xs px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl">
                             KE DUNIA 1 🏰
                         </button>
                     </div>
